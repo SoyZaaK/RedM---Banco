@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprobantes Bancarios • Banco de Silverpeak 1885</title>
+    
+    <!-- SEO y Metadatos -->
+    <meta name="description" content="Creador interactivo de comprobantes de pago y depósitos del Banco de Silverpeak (1885) para RedM Roleplay. Exportación en PNG/PDF e integración con webhooks de Discord.">
+    <meta name="author" content="ZaaK">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;500;600;700&family=Rye&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+    <!-- html2canvas para exportar a imagen -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Hoja de Estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- FONDO DECORATIVO CON OVERLAY DE POLVO/TEXTURA -->
+    <div class="dust-overlay"></div>
+
+    <div class="app-container">
+        
+        <!-- BARRA LATERAL: EDITOR (IZQUIERDA) -->
+        <aside class="control-panel">
+            <header class="panel-header">
+                <div class="logo-area">
+                    <span class="badge-icon">🏛️</span>
+                    <h1>Banco Maker</h1>
+                </div>
+                <p class="subtitle">Libro Diario y Comprobantes • 1885</p>
+            </header>
+
+            <!-- FORMULARIO DE EDICIÓN DIRECTO CON SCROLL -->
+            <form id="bank-form" class="form-container" onsubmit="event.preventDefault();">
+                
+                <!-- 1. TIPO Y ESTÉTICA -->
+                <section class="form-section">
+                    <h2><span class="section-num">1.</span> Tipo de Operación y Estética</h2>
+                    <div class="form-group">
+                        <label for="select-doc-type">Tipo de Comprobante</label>
+                        <select id="select-doc-type">
+                            <option value="pago" selected>💸 Comprobante de Pago (Retiro/Egreso)</option>
+                            <option value="recepcion">💰 Recepción de Dinero (Depósito/Ingreso)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="select-seal">Sello / Logotipo del Banco</label>
+                        <select id="select-seal">
+                            <option value="silverpeak" selected>Sello de Silverpeak Bank (Verde)</option>
+                            <option value="state">Sello de Estado (Tinta Azul)</option>
+                            <option value="sheriff">Estrella de Sheriff (Tinta Negra)</option>
+                            <option value="wax">Sello de Lacre Comercial (Rojo)</option>
+                            <option value="none">Ninguno (Vacío)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bank-title">Título del Documento</label>
+                        <input type="text" id="bank-title" value="COMPROBANTE DE PAGO" required>
+                    </div>
+                </section>
+
+                <!-- 2. SUCURSAL Y OFICINA -->
+                <section class="form-section">
+                    <h2><span class="section-num">2.</span> Oficina Bancaria</h2>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="bank-branch">Sucursal / Oficina</label>
+                            <input type="text" id="bank-branch" value="Sucursal Central Silverpeak" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bank-territory">Territorio / Jurisdicción</label>
+                            <input type="text" id="bank-territory" value="Condado de New Hanover" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. REGISTRO DE TRANSACCIÓN -->
+                <section class="form-section">
+                    <h2><span class="section-num">3.</span> Registro de Operación</h2>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="bank-transaction-id">N.º Transacción</label>
+                            <input type="text" id="bank-transaction-id" value="TX-1885-001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bank-date">Fecha Contable</label>
+                            <input type="date" id="bank-date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bank-status">Estado de la Transacción</label>
+                        <select id="bank-status" required>
+                            <option value="Procesado" selected>✔️ Procesado Correctamente</option>
+                            <option value="Aprobado">🛡️ Aprobado por Auditoría</option>
+                            <option value="Rechazado">❌ Rechazado / Sin Fondos</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- 4. DETALLES DE LA CUENTA -->
+                <section class="form-section">
+                    <h2><span class="section-num">4.</span> Cuenta del Cliente</h2>
+                    <div class="form-group">
+                        <label for="bank-holder">Titular de la Cuenta / Cliente *</label>
+                        <input type="text" id="bank-holder" list="holders-datalist" placeholder="Escribe el titular (ej: Arthur Morgan)" required>
+                        <datalist id="holders-datalist"></datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="bank-account">N.º Cuenta Referencia *</label>
+                        <input type="text" id="bank-account" list="accounts-datalist" placeholder="Escribe la cuenta (ej: AC-1885-123)" required>
+                        <datalist id="accounts-datalist"></datalist>
+                    </div>
+                </section>
+
+                <!-- 5. DETALLE FINANCIERO -->
+                <section class="form-section">
+                    <h2><span class="section-num">5.</span> Concepto e Importe</h2>
+                    <div class="form-group">
+                        <label for="bank-concept">Concepto de la Operación</label>
+                        <input type="text" id="bank-concept" placeholder="Ej: Depósito de lingotes de oro" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bank-amount">Importe en Dólares ($) *</label>
+                        <input type="number" id="bank-amount" placeholder="0.00" min="0.01" step="0.01" required>
+                    </div>
+                </section>
+
+                <!-- 6. FIRMAS DE CONFORMIDAD -->
+                <section class="form-section">
+                    <h2><span class="section-num">6.</span> Firmas Autorizadas</h2>
+                    
+                    <!-- Firma del Banquero -->
+                    <div class="form-group">
+                        <label>✍️ Firma del Cajero / Banquero</label>
+                        <div class="form-group" style="margin-bottom: 8px;">
+                            <label style="font-size: 9px; color: var(--text-muted);">Método de Firma</label>
+                            <select id="sig-method-banker">
+                                <option value="font" selected>✒️ Caligrafía (Tipográfica)</option>
+                                <option value="draw">🎨 Dibujar Firma</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Opción Caligrafía -->
+                        <div id="sig-font-container-banker" class="form-group" style="margin-bottom: 8px;">
+                            <label style="font-size: 9px; color: var(--text-muted);">Nombre a Firmar</label>
+                            <input type="text" id="sig-text-banker" placeholder="Nombre Cajero (ej: W. Grant)">
+                        </div>
+
+                        <!-- Opción Dibujo -->
+                        <div id="sig-draw-container-banker" class="signature-pad-wrapper" style="display: none;">
+                            <canvas id="canvas-sig-banker" width="300" height="80"></canvas>
+                            <button type="button" id="btn-clear-banker-sig" class="btn-secondary-border btn-small w-100" style="margin-top: 6px;">Borrar dibujo</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Firma del Cliente -->
+                    <div class="form-group" style="margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 14px;">
+                        <label>✍️ Firma del Cliente / Titular</label>
+                        <div class="form-group" style="margin-bottom: 8px;">
+                            <label style="font-size: 9px; color: var(--text-muted);">Método de Firma</label>
+                            <select id="sig-method-client">
+                                <option value="font" selected>✒️ Caligrafía (Tipográfica)</option>
+                                <option value="draw">🎨 Dibujar Firma</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Opción Caligrafía -->
+                        <div id="sig-font-container-client" class="form-group" style="margin-bottom: 8px;">
+                            <label style="font-size: 9px; color: var(--text-muted);">Nombre a Firmar</label>
+                            <input type="text" id="sig-text-client" placeholder="Nombre Cliente (ej: A. Morgan)">
+                        </div>
+
+                        <!-- Opción Dibujo -->
+                        <div id="sig-draw-container-client" class="signature-pad-wrapper" style="display: none;">
+                            <canvas id="canvas-sig-client" width="300" height="80"></canvas>
+                            <button type="button" id="btn-clear-client-sig" class="btn-secondary-border btn-small w-100" style="margin-top: 6px;">Borrar dibujo</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. DISCORD WEBHOOK -->
+                <section class="form-section">
+                    <h2><span class="section-num">7.</span> Integración Discord</h2>
+                    <div class="form-group">
+                        <label for="input-webhook-url">Webhook de Discord (Opcional)</label>
+                        <div class="webhook-input-wrapper">
+                            <input type="password" id="input-webhook-url" placeholder="https://discord.com/api/webhooks/...">
+                            <button type="button" id="btn-toggle-webhook" class="btn-icon-sm" title="Mostrar Webhook">👁️</button>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="chk-auto-webhook" checked>
+                        <label for="chk-auto-webhook">Enviar automáticamente al exportar</label>
+                    </div>
+                    <button type="button" id="btn-test-webhook" class="btn-secondary-border btn-small" style="margin-top: 4px;">Probar Webhook</button>
+                </section>
+                
+            </form>
+
+            <!-- ACCIONES DEL FORMULARIO (FIJAS AL PIE) -->
+            <div class="panel-actions">
+                <button type="button" id="btn-print-pdf" class="btn-primary">🖨️ Descargar PDF / Imprimir</button>
+                <button type="button" id="btn-download-png" class="btn-secondary">🖼️ Descargar Imagen (PNG)</button>
+                <button type="button" id="btn-copy-markdown" class="btn-secondary btn-icon-text">💬 Copiar para Discord</button>
+                <button type="button" id="btn-reset-form" class="btn-danger btn-xs">🧹 Limpiar Todo / Reiniciar</button>
+            </div>
+            
+            <footer class="panel-footer">
+                <p>Desarrollado por ZaaK • Bóveda Silverpeak</p>
+            </footer>
+        </aside>
+
+        <!-- PANEL DE PREVISUALIZACIÓN (DERECHA) -->
+        <main class="preview-panel">
+            <div class="preview-header-controls">
+                <div class="zoom-controls">
+                    <button id="btn-zoom-out" title="Alejar">-</button>
+                    <span id="zoom-level">Auto</span>
+                    <button id="btn-zoom-in" title="Acercar">+</button>
+                    <button id="btn-zoom-auto" title="Ajuste automático">Auto</button>
+                </div>
+            </div>
+
+            <div class="report-wrapper">
+                <!-- COMPROBANTE ESTILO PERGAMINO REALISTA (A4 VIRTUAL) -->
+                <article class="report-paper style-bancario" id="paper-document">
+                    <!-- Textura de fondo pergamino -->
+                    <div class="parchment-texture"></div>
+                    <div class="parchment-border"></div>
+                    
+                    <div class="bank-parchment-inner">
+                        <!-- Cabecera -->
+                        <header class="doc-header">
+                            <div class="invoice-header-top">
+                                <!-- Logo superior izquierdo elegible -->
+                                <div class="invoice-logo-container" id="invoice-logo-container">
+                                    <img src="assets/silverpeak.png" alt="Sello Oficial" class="invoice-seal-img" id="invoice-seal-img">
+                                </div>
+                                <div class="bank-header-titles">
+                                    <h3 class="bank-main-name">BANCO DE SILVERPEAK</h3>
+                                    <p class="bank-sub-info" id="inv-branch">Sucursal Central Silverpeak</p>
+                                    <p class="bank-sub-territory" id="inv-territory">Condado de New Hanover</p>
+                                </div>
+                            </div>
+                            <div class="bank-doc-title-wrapper">
+                                <span class="invoice-title-type" id="inv-title">COMPROBANTE DE PAGO</span>
+                            </div>
+                            <div class="invoice-meta-row" style="margin-top: 15px;">
+                                <div>
+                                    <p class="meta-label">REFERENCIA CONTABLE</p>
+                                    <p class="meta-val" id="inv-id">TX-1885-001</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p class="meta-label">FECHA DE OPERACIÓN</p>
+                                    <p class="meta-val" id="inv-date">15 de Junio de 1885</p>
+                                </div>
+                            </div>
+                        </header>
+
+                        <!-- Datos del Cliente y la Cuenta -->
+                        <div class="bank-client-details">
+                            <div class="bank-details-row">
+                                <div class="bank-detail-col">
+                                    <p class="meta-label">TITULAR DE LA CUENTA</p>
+                                    <p class="bank-detail-text" id="inv-holder">Arthur Morgan</p>
+                                </div>
+                                <div class="bank-detail-col">
+                                    <p class="meta-label">N.º CUENTA / REGISTRO</p>
+                                    <p class="bank-detail-text" id="inv-account" style="font-family: var(--font-typewriter);">AC-1885-001</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detalles Financieros -->
+                        <div class="bank-financial-block">
+                            <div class="financial-header">
+                                <span class="meta-label">DESCRIPCIÓN DE OPERACIÓN</span>
+                                <span class="meta-label" style="text-align: right;">VALOR NETO</span>
+                            </div>
+                            <div class="financial-row">
+                                <span class="financial-concept" id="inv-concept">Depósito de barras de oro</span>
+                                <span class="financial-value" id="inv-amount">$0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Advertencias y Notas Financieras -->
+                        <div class="invoice-notes" style="margin-top: 25px;">
+                            <h4>📜 CLÁUSULAS Y ADVERTENCIAS DEL TESORO</h4>
+                            <p>Este boleto sirve como certificación formal de los fondos debitados o acreditados en los libros de contabilidad del Banco de Silverpeak. Cualquier manipulación o adulteración de los registros presentes constituye un delito federal grave y será procesado bajo la Ley del Tesoro y del Condado.</p>
+                        </div>
+
+                        <!-- Firmas Autorizadas -->
+                        <div class="invoice-signatures" style="margin-top: auto; margin-bottom: 30px;">
+                            <div class="signature-line">
+                                <div class="sign-space" id="sig-banker-area">
+                                    <span id="sig-banker-font" class="preview-sig-font"></span>
+                                    <img id="sig-banker-img" class="sig-img-render" src="" alt="Firma Banquero" style="display: none;">
+                                </div>
+                                <span>Firma del Cajero</span>
+                            </div>
+                            <div class="signature-line">
+                                <div class="sign-space" id="sig-client-area">
+                                    <span id="sig-client-font" class="preview-sig-font"></span>
+                                    <img id="sig-client-img" class="sig-img-render" src="" alt="Firma Cliente" style="display: none;">
+                                </div>
+                                <span>Firma del Cliente</span>
+                            </div>
+                        </div>
+
+                        <!-- Sello de Procesamiento circular -->
+                        <div class="invoice-status-stamp" id="invoice-stamp">
+                            <span class="stamp-text">PROCESADO</span>
+                            <span class="stamp-date" id="stamp-date-val">AÑO 1885</span>
+                        </div>
+
+                        <!-- Pie de página -->
+                        <footer class="invoice-footer">
+                            <p>DEPARTAMENTO CONTABLE • BANCO DE SILVERPEAK</p>
+                            <p>Documento oficial emitido bajo el amparo de la legislación bancaria de Silverpeak.</p>
+                        </footer>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <!-- CONTENEDOR PARA TOASTS -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Cargar archivos Javascript -->
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

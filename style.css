@@ -1,0 +1,1105 @@
+/* =================================================================
+   ESTILOS DE DISEÑO - BANCO DE SILVERPEAK (1885)
+   ================================================================= */
+
+/* 🎨 VARIABLES GLOBALES */
+:root {
+    --bg-dark: #0c0a07;
+    --bg-card: #17120c;
+    --bg-input: #241b12;
+    --border: #33261a;
+    --border-light: rgba(201, 154, 78, 0.25);
+    
+    --primary-orange: #c99a4e;
+    --primary-orange-hover: #dec483;
+    --accent-gold: #a37e3b;
+    --accent-gold-hover: #b89552;
+    
+    --text-light: #f5eee0;
+    --text-muted: #a89582;
+    
+    --orange-glow: rgba(201, 154, 78, 0.22);
+    
+    /* Fuentes */
+    --font-serif: 'Rye', Georgia, serif;
+    --font-elegant: 'Cinzel', serif;
+    --font-handwritten: 'Pinyon Script', cursive;
+    --font-typewriter: 'Special Elite', monospace;
+    --font-sans: 'Outfit', sans-serif;
+    
+    --preview-scale: 1;
+}
+
+/* 🔄 RESET Y AJUSTES BÁSICOS */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: var(--font-sans);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* 🌫️ EFECTO DE POLVO/TEXTURA DE BÓVEDA */
+.dust-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.03;
+    background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 100%), 
+                      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+}
+
+/* =================================================================
+   1. CONTENEDOR PRINCIPAL PANTALLA DIVIDIDA
+   ================================================================= */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* =================================================================
+   2. BARRA LATERAL (IZQUIERDA) - CONTROL PANEL
+   ================================================================= */
+.control-panel {
+    width: 440px;
+    min-width: 440px;
+    background-color: var(--bg-card);
+    border-right: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    z-index: 100;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.panel-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+    text-align: center;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.badge-icon {
+    font-size: 26px;
+    filter: drop-shadow(0 2px 4px rgba(201, 154, 78, 0.4));
+}
+
+.logo-area h1 {
+    font-family: var(--font-elegant);
+    font-size: 22px;
+    color: var(--primary-orange);
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(201, 154, 78, 0.2);
+    font-weight: 900;
+}
+
+.panel-header .subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* CONTENEDOR DEL FORMULARIO CON SCROLL */
+.form-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Personalización del scroll lateral */
+.form-container::-webkit-scrollbar {
+    width: 6px;
+}
+.form-container::-webkit-scrollbar-track {
+    background: var(--bg-card);
+}
+.form-container::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+.form-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-orange);
+}
+
+/* SECCIONES DEL EDITOR */
+.form-section {
+    background-color: rgba(255, 255, 255, 0.01);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-section:hover {
+    border-color: var(--border-light);
+}
+
+.form-section h2 {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--primary-orange);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 6px;
+}
+
+.section-num {
+    color: var(--text-muted);
+    margin-right: 4px;
+}
+
+/* FORM GROUPS & CONTROLES */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.form-group-row {
+    display: flex;
+    gap: 12px;
+}
+
+.form-group-row .form-group {
+    flex: 1;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-light);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 3px rgba(201, 154, 78, 0.15);
+}
+
+/* DISCORD WEBHOOK UI */
+.webhook-input-wrapper {
+    display: flex;
+    gap: 6px;
+}
+
+.webhook-input-wrapper input {
+    flex-grow: 1;
+}
+
+.btn-icon-sm {
+    width: 38px;
+    height: 38px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-icon-sm:hover {
+    background-color: var(--border);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 4px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary-orange);
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    font-size: 12px;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+/* =================================================================
+   3. ACCIONES FIJAS EN EL PIE DE LA BARRA LATERAL
+   ================================================================= */
+.panel-actions {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    background-color: rgba(12, 10, 7, 0.96);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-primary {
+    background-color: var(--primary-orange);
+    color: #000;
+    border: 1px solid var(--primary-orange);
+    border-radius: 4px;
+    padding: 12px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--orange-glow);
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--primary-orange);
+    box-shadow: 0 6px 20px var(--orange-glow);
+}
+
+.btn-secondary {
+    background-color: rgba(255,255,255,0.02);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary-orange);
+    color: var(--primary-orange);
+    background-color: rgba(201, 154, 78, 0.02);
+}
+
+.btn-danger {
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 6px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.btn-danger:hover {
+    color: #e74c3c;
+    border-color: rgba(231, 76, 60, 0.2);
+    background-color: rgba(231, 76, 60, 0.02);
+}
+
+.btn-xs {
+    padding: 4px 8px;
+    font-size: 10px;
+}
+
+.btn-secondary-border {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+.btn-secondary-border:hover {
+    border-color: var(--primary-orange);
+    color: var(--primary-orange);
+    background-color: rgba(201, 154, 78, 0.02);
+}
+
+.panel-footer {
+    padding: 10px 24px 16px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(51, 38, 26, 0.3);
+    background-color: rgba(12, 10, 7, 0.98);
+}
+
+.panel-footer p {
+    font-size: 10px;
+    color: var(--text-muted);
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+}
+
+/* =================================================================
+   4. PANEL DE PREVISUALIZACIÓN (DERECHA)
+   ================================================================= */
+.preview-panel {
+    flex-grow: 1;
+    background-color: var(--bg-dark);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Fondo decorativo con textura rústica para el área de previsualización */
+.preview-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(201, 154, 78, 0.02) 0%, transparent 80%),
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.15) 10px, rgba(0,0,0,0.15) 20px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* CONTRELES DE ZOOM */
+.preview-header-controls {
+    padding: 14px 30px;
+    border-bottom: 1px solid var(--border);
+    background-color: rgba(12, 10, 7, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+.zoom-controls button {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background-color: var(--bg-input);
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.zoom-controls button:hover {
+    border-color: var(--primary-orange);
+    color: var(--primary-orange);
+    background-color: var(--border);
+}
+
+#zoom-level {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    min-width: 75px;
+    text-align: center;
+}
+
+#btn-zoom-auto {
+    width: 48px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+/* CONTENEDOR DE SCROLL DEL DOCUMENTO */
+.report-wrapper {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 2;
+    position: relative;
+}
+
+/* Estilos de la barra de desplazamiento del wrapper */
+.report-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.report-wrapper::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+.report-wrapper::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+.report-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-orange);
+}
+
+/* =================================================================
+   5. LA FACTURA DE PERGAMINO REALISTA (A4 VIRTUAL)
+   ================================================================= */
+.report-paper {
+    background: #f4edd4; /* Color pergamino */
+    color: #2c2114; /* Tinta sepia */
+    width: 800px;
+    min-width: 800px;
+    min-height: 1120px;
+    padding: 45px 50px;
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 
+        0 15px 40px rgba(0,0,0,0.85),
+        inset 0 0 45px rgba(184, 150, 100, 0.25);
+    overflow: hidden;
+    font-family: serif; /* Imprimir en fuente clásica */
+    transform: scale(var(--preview-scale));
+    transform-origin: top center;
+    transition: transform 0.15s ease-out;
+    margin-bottom: 40px;
+}
+
+/* Textura del papel */
+.parchment-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.14;
+    background-image: radial-gradient(circle at 10% 20%, rgba(200, 180, 140, 0.4) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 70%, rgba(150, 120, 90, 0.5) 0%, transparent 50%),
+                      radial-gradient(circle at 50% 50%, rgba(220, 200, 170, 0.3) 0%, transparent 100%);
+}
+
+/* Doble borde de filigrana bancario */
+.parchment-border {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 1px solid #7c6245;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.parchment-border::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 2px solid #7c6245;
+}
+
+.bank-parchment-inner {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    min-height: 1030px;
+}
+
+/* Cabecera */
+.doc-header {
+    border-bottom: 2px double #7c6245;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.invoice-header-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* CONTENEDOR LOGO SELECCIONABLE */
+.invoice-logo-container {
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.invoice-seal-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.bank-header-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.bank-main-name {
+    font-family: var(--font-elegant);
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #1a140f;
+    text-transform: uppercase;
+}
+
+.bank-sub-info,
+.bank-sub-territory {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #5c4530;
+    font-weight: bold;
+}
+
+.bank-doc-title-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0 5px 0;
+}
+
+.invoice-title-type {
+    font-family: var(--font-elegant);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: 1px solid #7c6245;
+    padding: 6px 14px;
+    color: #4a3620;
+    text-transform: uppercase;
+    background-color: rgba(124, 98, 69, 0.05);
+}
+
+.invoice-meta-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.meta-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #72593d;
+    font-family: var(--font-sans);
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+.meta-val {
+    font-family: var(--font-elegant);
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c2114;
+}
+
+/* Detalles del Cliente */
+.bank-client-details {
+    border-top: 1px solid rgba(124, 98, 69, 0.3);
+    border-bottom: 1px solid rgba(124, 98, 69, 0.3);
+    padding: 12px 0;
+    margin-bottom: 25px;
+}
+
+.bank-details-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.bank-detail-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.bank-detail-text {
+    font-family: var(--font-elegant);
+    font-size: 15px;
+    font-weight: 700;
+    color: #2c2114;
+    margin-top: 2px;
+    word-break: break-word;
+}
+
+/* Detalle Financiero */
+.bank-financial-block {
+    border: 1px solid #7c6245;
+    border-radius: 4px;
+    background: rgba(124, 98, 69, 0.04);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.financial-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1.5px solid rgba(124, 98, 69, 0.3);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.financial-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.financial-concept {
+    font-family: var(--font-typewriter);
+    font-size: 14px;
+    color: #3e2e1c;
+    word-break: break-word;
+    padding-right: 15px;
+}
+
+.financial-value {
+    font-family: var(--font-elegant);
+    font-size: 22px;
+    font-weight: 900;
+    color: #72593d;
+    text-align: right;
+    white-space: nowrap;
+    border-bottom: 3px double #7c6245;
+}
+
+/* Notas */
+.invoice-notes {
+    border-top: 1px dashed rgba(124, 98, 69, 0.4);
+    padding-top: 12px;
+    margin-bottom: auto; /* Empuja las firmas al fondo */
+}
+
+.invoice-notes h4 {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #72593d;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.invoice-notes p {
+    font-size: 13px;
+    font-style: italic;
+    color: #584531;
+    line-height: 1.5;
+    font-family: var(--font-typewriter);
+}
+
+/* Firmas */
+.invoice-signatures {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+.signature-line {
+    width: 200px;
+    text-align: center;
+}
+
+.sign-space {
+    height: 45px;
+    border-bottom: 1px solid #7c6245;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.signature-line span {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #72593d;
+}
+
+/* ✍️ CONTENEDOR DE LA FIRMA DIBUJADA */
+.signature-pad-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    align-items: center;
+}
+
+.signature-pad-wrapper canvas {
+    background-color: #f4edd4; /* Fondo crema para simular papel pergamino */
+    border: 1px solid #7c6245;
+    border-radius: 4px;
+    cursor: crosshair;
+    width: 100%;
+    max-width: 300px;
+    height: 80px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.sig-img-render {
+    max-height: 40px;
+    max-width: 180px;
+    object-fit: contain;
+    transform: rotate(-1.5deg); /* Ligera rotación natural para realismo */
+    filter: opacity(0.85) contrast(1.1); /* Efecto de tinta antigua */
+    margin-bottom: 2px;
+}
+
+.preview-sig-font {
+    font-family: var(--font-handwritten);
+    font-size: 26px;
+    color: #2c2114;
+    user-select: none;
+    transform: rotate(-1.5deg);
+    line-height: 1;
+    margin-bottom: 2px;
+    font-weight: normal;
+    text-transform: none;
+}
+
+/* Sello de tinta circular bancario */
+.invoice-status-stamp {
+    position: absolute;
+    bottom: 200px;
+    right: 80px;
+    width: 140px;
+    height: 140px;
+    border: 4px double #72593d; /* Tinta dorado/sepia oscuro por defecto */
+    border-radius: 50%;
+    color: #72593d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-10deg);
+    opacity: 0.65;
+    z-index: 10;
+    pointer-events: none;
+    text-shadow: 0 0 1px rgba(114,89,61,0.1);
+}
+
+.invoice-status-stamp::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 1px solid #72593d;
+    border-radius: 50%;
+}
+
+.invoice-status-stamp.stamp-approved {
+    border-color: #2c8a5c; /* Tinta verde bosque para aprobado */
+    color: #2c8a5c;
+}
+.invoice-status-stamp.stamp-approved::before {
+    border-color: #2c8a5c;
+}
+
+.invoice-status-stamp.stamp-rejected {
+    border-color: #c0392b; /* Tinta roja para rechazado */
+    color: #c0392b;
+}
+.invoice-status-stamp.stamp-rejected::before {
+    border-color: #c0392b;
+}
+
+.stamp-text {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.stamp-date {
+    font-family: var(--font-elegant);
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+/* Pie de página */
+.invoice-footer {
+    border-top: 1px solid rgba(124, 98, 69, 0.3);
+    padding-top: 12px;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 9px;
+    color: #8c7255;
+    letter-spacing: 1px;
+    line-height: 1.4;
+}
+
+/* =================================================================
+   6. TOASTS NOTIFICATION SYSTEM
+   ================================================================= */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 300;
+}
+
+.toast {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary-orange);
+    color: var(--text-light);
+    border-radius: 4px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    font-size: 14px;
+    min-width: 280px;
+    max-width: 380px;
+    animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.toast-success { border-left-color: #2ecc71; }
+.toast.toast-info { border-left-color: var(--primary-orange); }
+.toast.toast-error { border-left-color: #e74c3c; }
+
+/* =================================================================
+   7. RESPONSIVE DESIGN (TABLETS & MOBILE)
+   ================================================================= */
+@media (max-width: 1024px) {
+    .app-container {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    
+    .control-panel {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid var(--border);
+    }
+    
+    .form-container {
+        max-height: 500px;
+    }
+    
+    .preview-panel {
+        height: auto;
+        min-height: 600px;
+    }
+    
+    .report-wrapper {
+        padding: 20px;
+        overflow: visible;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/* =================================================================
+   🖨️ 8. REGLAS ESPECÍFICAS DE IMPRESIÓN (PDF)
+   ================================================================= */
+@media print {
+    /* Ocultar interfaz de la app */
+    .control-panel,
+    .preview-header-controls,
+    .dust-overlay,
+    .toast-container {
+        display: none !important;
+    }
+    
+    body {
+        background: #fff !important;
+        overflow: visible !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    .app-container {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    .preview-panel {
+        background: none !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    .report-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Documento A4 nativo en impresión */
+    .report-paper {
+        transform: none !important; /* Desactivar zoom */
+        box-shadow: none !important;
+        border: none !important;
+        background: #fff !important;
+        color: #000 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+        padding: 10mm 15mm !important;
+        margin: 0 !important;
+        position: relative !important;
+    }
+    
+    .parchment-texture {
+        display: none !important;
+    }
+
+    .parchment-border {
+        border-color: #000 !important;
+    }
+
+    .parchment-border::after {
+        border-color: #000 !important;
+    }
+    
+    .invoice-title-type,
+    .bank-main-name,
+    .bank-sub-info,
+    .bank-sub-territory,
+    .meta-label,
+    .meta-val,
+    .bank-detail-text,
+    .financial-concept,
+    .financial-value,
+    .signature-line span,
+    .invoice-footer {
+        color: #000 !important;
+        border-color: #000 !important;
+    }
+    
+    .bank-client-details {
+        border-top-color: #000 !important;
+        border-bottom-color: #000 !important;
+    }
+
+    .bank-financial-block {
+        border-color: #000 !important;
+        background: none !important;
+    }
+
+    .financial-header {
+        border-bottom-color: #000 !important;
+    }
+
+    .financial-value {
+        border-bottom-color: #000 !important;
+    }
+
+    .invoice-status-stamp {
+        opacity: 0.8 !important;
+    }
+}
